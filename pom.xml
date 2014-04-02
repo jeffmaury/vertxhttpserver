@@ -43,6 +43,13 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+  <inceptionYear>2014</inceptionYear>
+  <scm>
+    <url>http://github.com/jeffmaury/vertxhttpserver</url>
+    <connection>scm:git:git://github.com/jeffmaury/vertxhttpserver.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jeffmaury/vertxhttpserver.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 	<build>
 		<pluginManagement>
 			<plugins>
