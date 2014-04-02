@@ -4,6 +4,10 @@
 package com.jeffmaury.tools.vertx.vertxserver;
 
 import java.io.File;
+import java.nio.charset.Charset;
+
+import javax.activation.FileTypeMap;
+import javax.activation.MimetypesFileTypeMap;
 
 import org.vertx.java.core.AsyncResult;
 import org.vertx.java.core.Handler;
@@ -21,6 +25,8 @@ public class FileHandler implements Handler<HttpServerRequest> {
   private HttpServerConfiguration configuration;
   private Vertx vertx;
 
+  private static final FileTypeMap FILE_TYPE_MAP = new MimetypesFileTypeMap();
+  
 	/**
    * 
    */
@@ -66,6 +72,7 @@ public class FileHandler implements Handler<HttpServerRequest> {
                 builder.append("</a></p>");
               }
               builder.append("</body></html>");
+              request.response().putHeader("Content-Type", "text/html; charset=" + Charset.defaultCharset().name());
               request.response().end(builder.toString());
             } else {
               request.response().setStatusCode(500).end();
@@ -78,6 +85,7 @@ public class FileHandler implements Handler<HttpServerRequest> {
           @Override
           public void handle(final AsyncResult<AsyncFile> result) {
             if (result.succeeded()) {
+              request.response().putHeader("Content-Type", FILE_TYPE_MAP.getContentType(file) + "; charset=" + Charset.defaultCharset().name());
               result.result().endHandler(new Handler<Void>() {
                 @Override
                 public void handle(Void event) {
