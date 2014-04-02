@@ -3,7 +3,7 @@
 
 	<groupId>ccom.jeffmaury.tools</groupId>
 	<artifactId>vertxhttpserver</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>vertxhttpserver</name>
@@ -47,7 +47,7 @@
     <url>http://github.com/jeffmaury/vertxhttpserver</url>
     <connection>scm:git:git://github.com/jeffmaury/vertxhttpserver.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/jeffmaury/vertxhttpserver.git</developerConnection>
-    <tag>vertxhttpserver-0.0.1</tag>
+    <tag>HEAD</tag>
   </scm>
 	<build>
 		<pluginManagement>
