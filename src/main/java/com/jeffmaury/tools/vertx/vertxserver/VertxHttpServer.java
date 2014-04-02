@@ -44,4 +44,14 @@ public class VertxHttpServer {
   	vertx.stop();
   }
   
+  public static void main(String[] args) {
+    try  {
+      VertxHttpServer server = new VertxHttpServer(new HttpServerConfigurationBuilder().build());
+      server.start();
+      System.in.read();
+      server.stop();
+    }
+    catch (IOException e) {}
+  }
+  
 }
