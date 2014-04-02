@@ -17,6 +17,9 @@ import org.vertx.java.core.http.HttpServerRequest;
 import org.vertx.java.core.streams.Pump;
 
 /**
+ * Main handler for the file oriented HTTP server.
+ * The handle method is called by Vertx as soon as the header have been received.
+ * 
  * @author Jeff MAURY
  *
  */
@@ -36,7 +39,9 @@ public class FileHandler implements Handler<HttpServerRequest> {
   }
 
   /**
-   * {@inheritedDoc}
+   * Process the HTTP request when all headers have been received.
+   * 
+   * @param request the HTTP request object
    */
   @Override
   public void handle(final HttpServerRequest request) {
@@ -53,8 +58,10 @@ public class FileHandler implements Handler<HttpServerRequest> {
   }
 
   /**
-   * @param request
-   * @param file
+   * Process the GET method.
+   * 
+   * @param request the HTTP request object
+   * @param file the target file (file or directory)
    */
   protected void doGet(final HttpServerRequest request, final File file) {
     if (file.exists()) {
@@ -92,6 +99,9 @@ public class FileHandler implements Handler<HttpServerRequest> {
                   request.response().end();
                 }
               });
+              /*
+               * simply connect the data from the file to the HTTP client
+               */
               Pump.createPump(result.result(), request.response()).start();
             } else {
               request.response().setStatusCode(500).end();
@@ -105,13 +115,14 @@ public class FileHandler implements Handler<HttpServerRequest> {
   }
 
   /**
-   * @param request
-   * @param file
+   * Process the DELETE method.
+   * 
+   * @param request the HTTP request object
+   * @param file the target file
    */
   protected void doDelete(final HttpServerRequest request, final File file) {
     if (file.exists()) {
       vertx.fileSystem().delete(file.getPath(), new Handler<AsyncResult<Void>>() {
-
         @Override
         public void handle(AsyncResult<Void> result) {
           request.response().setStatusCode(result.succeeded()?200:500).end();
@@ -123,8 +134,10 @@ public class FileHandler implements Handler<HttpServerRequest> {
   }
 
   /**
-   * @param request
-   * @param file
+   * Process the PUT method.
+   * 
+   * @param request the HTTP request object
+   * @param file the target file
    */
   protected void doPut(final HttpServerRequest request, final File file) {
     if (!file.exists() || file.isFile())  {
@@ -146,6 +159,9 @@ public class FileHandler implements Handler<HttpServerRequest> {
                 result.result().close();
               }
             });
+            /*
+             * simply connect the data from the HTTP client to the file stream
+             */
             Pump.createPump(request, result.result()).start();
             request.resume();
           } else {
